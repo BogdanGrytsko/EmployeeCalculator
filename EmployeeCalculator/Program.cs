@@ -1,7 +1,6 @@
 ﻿using EmployeeCalculator;
 
-var lines = File.ReadLines("SomeData.csv").ToList();
-var employees = Calculator.Parse(lines);
+var employees = Calculator.Parse("SomeData.csv");
 
 var outputLines = new List<string> { "TaxId;YearlySum" };
 foreach (var employee in employees)

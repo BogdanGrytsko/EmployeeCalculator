@@ -8,9 +8,8 @@ public class CalculatorTest
     [Fact]
     public void YearlySumTest()
     {
-        var embeddedFile = ReadEmbeddedFile("EmployeeCalcucatorTest.EmployeeTestData.csv");
-        var lines = embeddedFile.Split(Environment.NewLine).ToList();
-        var employees = Calculator.Parse(lines);
+        var bytes = ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
+        var employees = Calculator.Parse(new MemoryStream(bytes));
         Assert.Equal(78, employees[0].YearlySum());
     }
 
@@ -24,5 +23,14 @@ public class CalculatorTest
             string result = reader.ReadToEnd();
             return result;
         }
+    }
+
+    public static byte[] ReadAsBytes(string filename)
+    {
+        var a = Assembly.GetExecutingAssembly();
+        using Stream resFilestream = a.GetManifestResourceStream(filename);
+        var ms = new MemoryStream();
+        resFilestream!.CopyTo(ms);
+        return ms.ToArray();
     }
 }
