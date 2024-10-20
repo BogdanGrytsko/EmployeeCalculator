@@ -1,3 +1,3 @@
 ﻿using EmployeeCalculator;
 
-new Calculator("SomeData.csv").ProcessFile();
+new EmployeeManager("SomeData.csv").ProcessFile(5);

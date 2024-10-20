@@ -9,7 +9,7 @@ public class CalculatorTest
     public void YearlySumTest()
     {
         var bytes = ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
-        var employees = Calculator.Parse(new MemoryStream(bytes));
+        var employees = EmployeeManager.Parse(new MemoryStream(bytes));
         Assert.Equal(78, employees[0].CalculateYearlySum());
     }
 
