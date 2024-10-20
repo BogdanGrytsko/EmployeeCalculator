@@ -20,8 +20,9 @@ public class Employee
     public decimal Oct { get; set; }
     public decimal Nov { get; set; }
     public decimal Dec { get; set; }
+    public decimal YearlySum { get; set; }
 
-    public decimal YearlySum()
+    public decimal CalculateYearlySum()
     {
         return Jan + Feb + Mar + Apr + May + Jun + Jul + Aug + Sep + Oct + Nov + Dec;
     }

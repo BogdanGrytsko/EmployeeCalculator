@@ -10,7 +10,7 @@ public class CalculatorTest
     {
         var bytes = ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
         var employees = Calculator.Parse(new MemoryStream(bytes));
-        Assert.Equal(78, employees[0].YearlySum());
+        Assert.Equal(78, employees[0].CalculateYearlySum());
     }
 
     public string ReadEmbeddedFile(string fileName)
