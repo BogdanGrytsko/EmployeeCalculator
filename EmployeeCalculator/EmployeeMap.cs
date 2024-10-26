@@ -10,6 +10,7 @@ public sealed class EmployeeMap : ClassMap<Employee>
         Map(m => m.LastName);
         Map(m => m.BirthDate);
         Map(m => m.JoinDate);
+        Map(m => m.Year);
         Map(m => m.Jan);
         Map(m => m.Feb);
         Map(m => m.Mar);
@@ -22,5 +23,7 @@ public sealed class EmployeeMap : ClassMap<Employee>
         Map(m => m.Oct);
         Map(m => m.Nov);
         Map(m => m.Dec);
+
+        Map(x => x.YearlySum).Optional();
     }
 }
