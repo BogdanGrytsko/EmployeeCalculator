@@ -2,4 +2,10 @@
 
 var manager = new EmployeeManager();
 manager.ReadFromDisk("SomeData.csv");
-manager.ProcessFile(5);
+var yearlySumBytes = manager.GetYearlySumFile();
+File.WriteAllBytes("Output.csv", yearlySumBytes);
+
+var topEarners = manager.TopN(5);
+File.WriteAllBytes("TopEarners.csv", topEarners);
+var bottomEarners = manager.BottomN(5);
+File.WriteAllBytes("BottomEarners.csv", bottomEarners);

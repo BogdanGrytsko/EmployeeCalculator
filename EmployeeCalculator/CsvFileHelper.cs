@@ -23,23 +23,26 @@ public class CsvFileHelper
         return ms.ToArray();
     }
 
-    public static List<Employee> GetRecords(StreamReader reader)
+    public static List<Employee> Read(StreamReader reader, ClassMap<Employee> classMap = null)
     {
         using var csv = new CsvReader(reader, csvConfig);
-        csv.Context.RegisterClassMap<EmployeeMap>();
+        if (classMap != null)
+        {
+            csv.Context.RegisterClassMap(classMap);
+        }
         var records = csv.GetRecords<Employee>();
         return records.ToList();
     }
 
-    public static List<Employee> Read(MemoryStream memoryStream)
+    public static List<Employee> Read(MemoryStream memoryStream, ClassMap<Employee> classMap = null)
     {
         using var reader = new StreamReader(memoryStream);
-        return GetRecords(reader);
+        return Read(reader, classMap);
     }
 
-    public static List<Employee> Read(byte[] bytes)
+    public static List<Employee> Read(byte[] bytes, ClassMap<Employee> classMap = null)
     {
         using var reader = new StreamReader(new MemoryStream(bytes));
-        return GetRecords(reader);
+        return Read(reader, classMap);
     }
 }

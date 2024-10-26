@@ -7,14 +7,13 @@ public class EmployeeManager
     public void ReadFromDisk(string fileName)
     {
         using var reader = new StreamReader(fileName);
-        employees = CsvFileHelper.GetRecords(reader);
+        employees = CsvFileHelper.Read(reader, new EmployeeMap());
         CalcYearlySum();
     }
 
     public void ReadFromBytes(byte[] bytes)
     {
-        using var reader = new StreamReader(new MemoryStream(bytes));
-        employees = CsvFileHelper.GetRecords(reader);
+        employees = CsvFileHelper.Read(bytes, new EmployeeMap());
         CalcYearlySum();
     }
 
@@ -33,17 +32,6 @@ public class EmployeeManager
     {
         var bottomEarners = GetBottomEarners(n);
         return CsvFileHelper.WriteToByteArray(bottomEarners, new EmployeeNameEarningMap());
-    }
-
-    public void ProcessFile(int n)
-    {
-        var yearlySumBytes = GetYearlySumFile();
-        File.WriteAllBytes("Output.csv", yearlySumBytes);
-
-        var topEarners = TopN(n);
-        File.WriteAllBytes("TopEarners.csv", topEarners);
-        var bottomEarners = BottomN(n);
-        File.WriteAllBytes("BottomEarners.csv", bottomEarners);
     }
 
     private List<Employee> GetTopEarners(int n)
