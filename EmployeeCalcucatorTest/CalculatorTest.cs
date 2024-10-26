@@ -1,5 +1,4 @@
 using EmployeeCalculator;
-using System.Reflection;
 
 namespace EmployeeCalcucatorTest;
 
@@ -8,29 +7,21 @@ public class CalculatorTest
     [Fact]
     public void YearlySumTest()
     {
-        var bytes = ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
+        var bytes = EmbeddedFileHelper.ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
         var employees = EmployeeManager.Parse(new MemoryStream(bytes));
         Assert.Equal(78, employees[0].CalculateYearlySum());
     }
 
-    public string ReadEmbeddedFile(string fileName)
+    [Fact]
+    public void IntegrationTest()
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        var bytes = EmbeddedFileHelper.ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
+        var manager = new EmployeeManager();
+        manager.ReadFromBytes(bytes);
+        var yearlySum = manager.GetYearlySumFile();
+        //var top = manager.TopN(5);
+        //var bottom = manager.BottomN(5);
 
-        using (Stream stream = assembly.GetManifestResourceStream(fileName))
-        using (StreamReader reader = new StreamReader(stream))
-        {
-            string result = reader.ReadToEnd();
-            return result;
-        }
-    }
-
-    public static byte[] ReadAsBytes(string filename)
-    {
-        var a = Assembly.GetExecutingAssembly();
-        using Stream resFilestream = a.GetManifestResourceStream(filename);
-        var ms = new MemoryStream();
-        resFilestream!.CopyTo(ms);
-        return ms.ToArray();
+        //Assertion --> read csv file from Memory, check content of yearlySum, top, bottom
     }
 }

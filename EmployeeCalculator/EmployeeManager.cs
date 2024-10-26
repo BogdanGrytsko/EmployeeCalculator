@@ -7,24 +7,40 @@ namespace EmployeeCalculator;
 
 public class EmployeeManager
 {
-    private readonly string fileName;
     private List<Employee> employees;
 
-    public EmployeeManager(string fileName)
+    public EmployeeManager()
     {
-        this.fileName = fileName;
+    }
+
+    public void ReadFromDisk(string fileName)
+    {
+        using var reader = new StreamReader(fileName);
+        employees = GetRecords(reader);
+    }
+
+    public void ReadFromBytes(byte[] bytes)
+    {
+        using var reader = new StreamReader(new MemoryStream(bytes));
+        employees = GetRecords(reader);
+    }
+
+    public byte[] GetYearlySumFile()
+    {
+        CalcYearlySum();
+        return WriteToByteArray(employees);
     }
 
     public void ProcessFile(int n)
     {
-        employees = ReadFromFile(fileName);
-        CalcYearlySum();
-        WriteToFile(employees, fileName);
+        var yearlySumBytes = GetYearlySumFile();
+        File.WriteAllBytes("Output.csv", yearlySumBytes);
+        //WriteToFile(employees, "Output.csv");
 
         var topEarners = GetTopEarners(n);
         WriteToFile(topEarners, new EmployeeNameEarningMap(), "TopEarners.csv");
         var bottomEarners = GetBottomEarners(n);
-        WriteToFile(bottomEarners, new EmployeeNameEarningMap(), "BottomEraners.csv");
+        WriteToFile(bottomEarners, new EmployeeNameEarningMap(), "BottomEarners.csv");
     }
 
     private List<Employee> GetTopEarners(int n)
@@ -35,12 +51,6 @@ public class EmployeeManager
     private List<Employee> GetBottomEarners(int n)
     {
         return employees.OrderBy(x => x.YearlySum).Take(n).ToList();
-    }
-
-    private static List<Employee> ReadFromFile(string fileName)
-    {
-        using var reader = new StreamReader(fileName);
-        return GetRecords(reader);
     }
 
     private void CalcYearlySum()
@@ -67,6 +77,19 @@ public class EmployeeManager
             csv.Context.RegisterClassMap(classMap);
         }
         csv.WriteRecords(employees);
+    }
+
+    private static byte[] WriteToByteArray(List<Employee> employees, ClassMap<Employee> classMap = null)
+    {
+        using var ms = new MemoryStream();
+        using var writer = new StreamWriter(ms);
+        using var csv = new CsvWriter(writer, csvConfig);
+        if (classMap != null)
+        {
+            csv.Context.RegisterClassMap(classMap);
+        }
+        csv.WriteRecords(employees);
+        return ms.ToArray();
     }
 
     private static List<Employee> GetRecords(StreamReader reader)

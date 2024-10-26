@@ -1,3 +1,5 @@
 ﻿using EmployeeCalculator;
 
-new EmployeeManager("SomeData.csv").ProcessFile(5);
+var manager = new EmployeeManager();
+manager.ReadFromDisk("SomeData.csv");
+manager.ProcessFile(5);
