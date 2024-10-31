@@ -1,7 +1,8 @@
 ﻿using CsvHelper.Configuration;
+using Employee.Data;
 namespace EmployeeCalculator;
 
-public sealed class EmployeeMap : ClassMap<Employee>
+public sealed class EmployeeMap : ClassMap<EmployeeModel>
 {
     public EmployeeMap()
     {

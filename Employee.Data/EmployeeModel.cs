@@ -1,7 +1,10 @@
-﻿namespace EmployeeCalculator;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Employee
+namespace Employee.Data;
+
+public class EmployeeModel
 {
+    [Key]
     public long TaxId { get; set; }
     public string Name { get; set; }
     public string LastName { get; set; }

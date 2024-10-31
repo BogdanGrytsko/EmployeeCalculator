@@ -1,8 +1,10 @@
-﻿namespace EmployeeCalculator;
+﻿using Employee.Data;
+
+namespace EmployeeCalculator;
 
 public class EmployeeManager
 {
-    private List<Employee> employees;
+    private List<EmployeeModel> employees;
 
     public void ReadFromDisk(string fileName)
     {
@@ -34,19 +36,19 @@ public class EmployeeManager
         return CsvFileHelper.WriteToByteArray(bottomEarners, new EmployeeNameEarningMap());
     }
 
-    private List<Employee> GetTopEarners(int n)
+    private List<EmployeeModel> GetTopEarners(int n)
     {
         return employees.OrderByDescending(x => x.YearlySum).Take(n).ToList();
     }
 
-    private List<Employee> GetBottomEarners(int n)
+    private List<EmployeeModel> GetBottomEarners(int n)
     {
         return employees.OrderBy(x => x.YearlySum).Take(n).ToList();
     }
 
     private void CalcYearlySum()
     {
-        foreach (Employee employee in employees)
+        foreach (EmployeeModel employee in employees)
         {
             employee.YearlySum = employee.CalculateYearlySum();
         }
