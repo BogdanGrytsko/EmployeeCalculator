@@ -1,7 +1,11 @@
 ﻿using Employee.Data;
 using EmployeeCalculator;
+using Microsoft.EntityFrameworkCore;
 
-var context = new EmployeeContext();
+var options = new DbContextOptionsBuilder<EmployeeContext>()
+                        .UseSqlServer("Server=.;Database=EmployeeDB;trusted_connection=true;TrustServerCertificate=True")
+                        .Options;
+var context = new EmployeeContext(options);
 var manager = new EmployeeManager();
 manager.ReadFromDatabase(context);
 //manager.ReadFromDisk("SomeData.csv");

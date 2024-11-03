@@ -4,12 +4,11 @@ namespace Employee.Data;
 
 public class EmployeeContext : DbContext
 {
-    public DbSet<EmployeeModel> Employees { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public EmployeeContext(DbContextOptions options) : base(options)
     {
-        optionsBuilder.UseSqlServer("Server=.;Database=EmployeeDB;trusted_connection=true;TrustServerCertificate=True");
     }
+
+    public DbSet<EmployeeModel> Employees { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
