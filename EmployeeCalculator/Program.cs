@@ -1,7 +1,12 @@
-﻿using EmployeeCalculator;
+﻿using Employee.Data;
+using EmployeeCalculator;
 
+var context = new EmployeeContext();
 var manager = new EmployeeManager();
-manager.ReadFromDisk("SomeData.csv");
+manager.ReadFromDatabase(context);
+//manager.ReadFromDisk("SomeData.csv");
+//await manager.SaveToDatabase(context);
+
 var yearlySumBytes = manager.GetYearlySumFile();
 File.WriteAllBytes("Output.csv", yearlySumBytes);
 

@@ -10,4 +10,10 @@ public class EmployeeContext : DbContext
     {
         optionsBuilder.UseSqlServer("Server=.;Database=EmployeeDB;trusted_connection=true;TrustServerCertificate=True");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+        base.OnModelCreating(modelBuilder);
+    }
 }

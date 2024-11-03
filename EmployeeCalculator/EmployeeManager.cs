@@ -19,6 +19,18 @@ public class EmployeeManager
         CalcYearlySum();
     }
 
+    public void ReadFromDatabase(EmployeeContext context)
+    {
+        employees = context.Employees.ToList();
+        CalcYearlySum();
+    }
+
+    public async Task SaveToDatabase(EmployeeContext context)
+    {
+        await context.AddRangeAsync(employees);
+        await context.SaveChangesAsync();
+    }
+
     public byte[] GetYearlySumFile()
     {
         return CsvFileHelper.WriteToByteArray(employees);
