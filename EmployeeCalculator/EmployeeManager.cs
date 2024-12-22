@@ -1,4 +1,5 @@
-﻿using Employee.Data;
+﻿using EFCore.BulkExtensions;
+using Employee.Data;
 
 namespace EmployeeCalculator;
 
@@ -28,6 +29,12 @@ public class EmployeeManager
     public async Task SaveToDatabase(EmployeeContext context)
     {
         await context.AddRangeAsync(employees);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task SaveBulkToDatabase(EmployeeContext context)
+    {
+        await context.BulkInsertAsync(employees);
         await context.SaveChangesAsync();
     }
 

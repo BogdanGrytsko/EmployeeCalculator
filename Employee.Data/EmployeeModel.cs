@@ -5,6 +5,7 @@ namespace Employee.Data;
 public class EmployeeModel
 {
     [Key]
+    public long EmployeeDataId { get; set; }
     public long TaxId { get; set; }
     public string Name { get; set; }
     public string LastName { get; set; }
