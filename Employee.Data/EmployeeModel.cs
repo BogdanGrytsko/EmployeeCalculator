@@ -29,4 +29,9 @@ public class EmployeeModel
     {
         return Jan + Feb + Mar + Apr + May + Jun + Jul + Aug + Sep + Oct + Nov + Dec;
     }
+
+    public EmployeeModel Clone()
+    {
+        return MemberwiseClone() as EmployeeModel;
+    }
 }

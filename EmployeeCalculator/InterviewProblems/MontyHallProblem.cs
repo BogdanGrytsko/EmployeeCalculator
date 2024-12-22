@@ -1,10 +1,9 @@
-﻿namespace EmployeeCalculator;
+﻿namespace EmployeeCalculator.InterviewProblems;
 
 public class MontyHallProblem
 {
-    public static void Simultate()
+    public static (int, int) Simultate(int numberOfTries)
     {
-        var numberOfTries = 10000;
         var wins = 0;
         var losses = 0;
         for (int i = 0; i < numberOfTries; i++)
@@ -14,7 +13,8 @@ public class MontyHallProblem
             else
                 losses++;
         }
-        Console.WriteLine($"Wins: {wins}, Losses: {losses}, Win ratio: {(double)wins / numberOfTries}");
+        return (wins, losses);
+        
     }
 
     private static bool SimulateOneTry()
