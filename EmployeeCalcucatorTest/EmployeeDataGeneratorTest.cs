@@ -31,7 +31,7 @@ public class EmployeeDataGeneratorTest
         //50000 records --> 1.6s
         //100000 records --> 2.7s
 
-        int employeeCount = 10000, yearCount = 10;
+        int employeeCount = 50000, yearCount = 20;
         var generator = new EmployeeDataGenerator();
         var bytes = generator.Generate(employeeCount, yearCount);
         var fileName = $"EmployeeData_{employeeCount}_years_{yearCount}.csv";
@@ -44,5 +44,13 @@ public class EmployeeDataGeneratorTest
         var sw = Stopwatch.StartNew();
         await manager.SaveBulkToDatabase(context);
         testOutputHelper.WriteLine($"Time to insert for {fileName} is {sw.Elapsed}");
+    }
+
+    [Fact]
+    public async Task FindEmployeeByTaxId()
+    {
+        var context = ContextBuilder.GetContext();
+        var taxId = 745995703;
+        var employeeData = context.Employees.Where(x => x.TaxId == taxId).ToList();
     }
 }

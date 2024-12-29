@@ -6,6 +6,6 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<EmployeeModel>
 {
     public void Configure(EntityTypeBuilder<EmployeeModel> builder)
     {
-        builder.Property(x => x.TaxId).ValueGeneratedNever();
+        builder.HasIndex(x => x.TaxId);
     }
 }
