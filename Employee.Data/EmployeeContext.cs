@@ -9,10 +9,12 @@ public class EmployeeContext : DbContext
     }
 
     public DbSet<EmployeeModel> Employees { get; set; }
+    public DbSet<EmployeeDataModel> EmployeeData { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+        modelBuilder.ApplyConfiguration(new EmployeeDataConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 }

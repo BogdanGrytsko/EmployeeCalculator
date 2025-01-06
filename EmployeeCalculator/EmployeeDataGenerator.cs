@@ -11,14 +11,14 @@ public class EmployeeDataGenerator
         return CsvFileHelper.WriteToByteArray(records);
     }
 
-    private static IEnumerable<EmployeeModel> GetRecords(int rowCount, int yearCount)
+    private static IEnumerable<EmployeeDataCsvModel> GetRecords(int rowCount, int yearCount)
     {
         var nameGenerator = new PersonNameGenerator();
-        var list = new List<EmployeeModel>();
+        var list = new List<EmployeeDataCsvModel>();
         var rnd = new Random();
         for (int i = 0; i < rowCount; i++)
         {
-            var employee = new EmployeeModel
+            var employee = new EmployeeDataCsvModel
             {
                 TaxId = rnd.NextInt64(1000000000),
                 Name = nameGenerator.GenerateRandomFirstName(),

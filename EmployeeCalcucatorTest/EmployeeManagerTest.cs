@@ -57,7 +57,7 @@ public class EmployeeManagerTest
     {
         var bytes = EmbeddedFileHelper.ReadAsBytes("EmployeeCalcucatorTest.EmployeeTestData.csv");
         var employees = CsvFileHelper.Read(bytes, new EmployeeMap());
-        context.Employees.AddRange(employees);
+        context.EmployeeData.AddRange(employees);
         context.SaveChanges();
     }
 

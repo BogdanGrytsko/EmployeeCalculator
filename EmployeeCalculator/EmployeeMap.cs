@@ -2,15 +2,15 @@
 using Employee.Data;
 namespace EmployeeCalculator;
 
-public sealed class EmployeeMap : ClassMap<EmployeeModel>
+public sealed class EmployeeMap : ClassMap<EmployeeDataModel>
 {
     public EmployeeMap()
     {
-        Map(m => m.TaxId);
-        Map(m => m.Name);
-        Map(m => m.LastName);
-        Map(m => m.BirthDate);
-        Map(m => m.JoinDate);
+        Map(m => m.Employee.TaxId);
+        Map(m => m.Employee.Name);
+        Map(m => m.Employee.LastName);
+        Map(m => m.Employee.BirthDate);
+        Map(m => m.Employee.JoinDate);
         Map(m => m.Year);
         Map(m => m.Jan);
         Map(m => m.Feb);

@@ -2,7 +2,6 @@
 using EmployeeCalculator;
 using System.Diagnostics;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace EmployeeCalcucatorTest;
 
@@ -51,6 +50,6 @@ public class EmployeeDataGeneratorTest
     {
         var context = ContextBuilder.GetContext();
         var taxId = 745995703;
-        var employeeData = context.Employees.Where(x => x.TaxId == taxId).ToList();
+        var employeeData = context.EmployeeData.Where(x => x.Employee.TaxId == taxId).ToList();
     }
 }

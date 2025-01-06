@@ -5,7 +5,7 @@ namespace EmployeeCalculator;
 
 public class EmployeeManager
 {
-    private List<EmployeeModel> employees;
+    private List<EmployeeDataModel> employees;
 
     public void ReadFromDisk(string fileName)
     {
@@ -22,7 +22,7 @@ public class EmployeeManager
 
     public void ReadFromDatabase(EmployeeContext context)
     {
-        employees = context.Employees.ToList();
+        employees = context.EmployeeData.ToList();
         CalcYearlySum();
     }
 
@@ -55,19 +55,19 @@ public class EmployeeManager
         return CsvFileHelper.WriteToByteArray(bottomEarners, new EmployeeNameEarningMap());
     }
 
-    private List<EmployeeModel> GetTopEarners(int n)
+    private List<EmployeeDataModel> GetTopEarners(int n)
     {
         return employees.OrderByDescending(x => x.YearlySum).Take(n).ToList();
     }
 
-    private List<EmployeeModel> GetBottomEarners(int n)
+    private List<EmployeeDataModel> GetBottomEarners(int n)
     {
         return employees.OrderBy(x => x.YearlySum).Take(n).ToList();
     }
 
     private void CalcYearlySum()
     {
-        foreach (EmployeeModel employee in employees)
+        foreach (EmployeeDataModel employee in employees)
         {
             employee.YearlySum = employee.CalculateYearlySum();
         }
