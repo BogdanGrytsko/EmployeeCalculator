@@ -8,8 +8,9 @@ public class EmployeeContext : DbContext
     {
     }
 
-    public DbSet<EmployeeModel> Employees { get; set; }
+    public DbSet<EmployeeModel> EmployeesNew { get; set; }
     public DbSet<EmployeeDataModel> EmployeeData { get; set; }
+    public DbSet<EmployeeDataCsvModel> Employees { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,5 +1,10 @@
-﻿public class EmployeeDataCsvModel
+﻿using System.ComponentModel.DataAnnotations;
+
+public class EmployeeDataCsvModel
 {
+    [Key]
+    public long EmployeeDataId { get; set; }
+
     public long TaxId { get; set; }
     public string Name { get; set; }
     public string LastName { get; set; }

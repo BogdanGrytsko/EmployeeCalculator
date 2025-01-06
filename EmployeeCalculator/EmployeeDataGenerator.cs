@@ -1,5 +1,4 @@
-﻿using Employee.Data;
-using RandomNameGeneratorLibrary;
+﻿using RandomNameGeneratorLibrary;
 
 namespace EmployeeCalculator;
 
@@ -11,7 +10,7 @@ public class EmployeeDataGenerator
         return CsvFileHelper.WriteToByteArray(records);
     }
 
-    private static IEnumerable<EmployeeDataCsvModel> GetRecords(int rowCount, int yearCount)
+    public static IEnumerable<EmployeeDataCsvModel> GetRecords(int rowCount, int yearCount)
     {
         var nameGenerator = new PersonNameGenerator();
         var list = new List<EmployeeDataCsvModel>();
