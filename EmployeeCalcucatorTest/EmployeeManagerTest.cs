@@ -26,7 +26,7 @@ public class EmployeeManagerTest
         var top = manager.TopN(5);
         var bottom = manager.BottomN(5);
         //assert
-        var employees = CsvFileHelper.Read(yearlySum);
+        var employees = CsvFileHelper.Read<EmployeeDataCsvModel>(yearlySum);
         employees[0].YearlySum.Should().Be(78);
 
         var topEmployees = CsvFileHelper.Read(top, new EmployeeNameEarningMap());

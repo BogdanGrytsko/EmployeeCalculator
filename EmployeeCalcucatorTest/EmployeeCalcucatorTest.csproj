@@ -10,10 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ChatGpt\UserAnswers.csv" />
     <None Remove="EmployeeTestData.csv" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="ChatGpt\UserAnswers.csv" />
     <EmbeddedResource Include="EmployeeTestData.csv" />
   </ItemGroup>
 
