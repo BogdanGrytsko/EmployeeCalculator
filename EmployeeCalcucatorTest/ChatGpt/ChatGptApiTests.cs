@@ -1,6 +1,7 @@
 ﻿using EmployeeCalcucatorTest.ChatGpt;
 using EmployeeCalculator;
 using FluentAssertions;
+using Newtonsoft.Json;
 using System.Reflection;
 using System.Text;
 
@@ -12,7 +13,7 @@ public class ChatGptApiTests
     public async Task CheckAnswers()
     {
         var bytes = EmbeddedFileHelper.ReadAsBytes("EmployeeCalcucatorTest.ChatGpt.UserAnswers.csv");
-        var answers = CsvFileHelper.Read(bytes, new UserAnswerMap(), ",");
+
         var openApiCaller = new OpenAIApiCaller(OpenApiSecrets.API_KEY, OpenApiSecrets.ENDPOINT, OpenAIApiCaller.Gpt4);
 
         var prompt = "Hey, I have a questionnaire which is filled by users." +
@@ -21,10 +22,25 @@ public class ChatGptApiTests
             "Could you analyze the text and based on it suggest in which questions(1-10) numeric answer isn't actually reflecting what is in free text, and what an approprioate number would be?" + Environment.NewLine +
             "I'll give an example: Question is '9. How would you rate the accountability of the company's leadership in upholding ESG principles?', and user has answered 10. However in free text Q11 he writes down: 'A well-rounded approach to ESG practices, but leadership accountability needs strengthening.'" + Environment.NewLine +
             "In such case there is a discrepancy, and suggested score(by you) could be 4." + Environment.NewLine +
-            "Please respond in the following format (1st row as an example) : \r\n" +
-            "| rowId | Comments | Suggested Score |\r\n|-------|----------|------------------|\r\n| 1     | your explanation | Q3: 5 (instead of 3), Q10: 5 (instead of 2) |" + Environment.NewLine +
+            "Please respond in the JSON format, returning an array of RowAnalysis. Here is model definition : \r\n" +
+            @"public class RowAnalysis
+            {
+                public int RowId { get; set; }
+                public string Comments { get; set; }
+                public Dictionary<string, SuggestedScoreChange> SuggestedScores { get; set; }
+            }
+
+            public class SuggestedScoreChange
+            {
+                public int Suggested { get; set; }
+                public int Original { get; set; }
+            }" + Environment.NewLine +
+            "Please respond only with JSON, so that I can directly parse it. In Comments please provide your reasoning for score change (if any). Do not put smth like ```json in the begining of the response please" + Environment.NewLine +
+            //"| rowId | Comments | Suggested Score |\r\n|-------|----------|------------------|\r\n| 1     | your explanation | Q3: 5 (instead of 3), Q10: 5 (instead of 2) |" + Environment.NewLine +
             "Below I provide rows with user answers. Please provide you comments and suggested score also in rows, keeping the rowId." + Environment.NewLine;
 
+
+        var answers = CsvFileHelper.Read(bytes, new UserAnswerMap(), ",");
         var answerMap = answers.ToDictionary(x => x.RowId);
 
         foreach (var answerBatch in answers.Chunk(10))
@@ -37,7 +53,7 @@ public class ChatGptApiTests
             var finalPrompt = sb.ToString();
             var openAiResponse = await openApiCaller.Execute(finalPrompt);
             var message = openAiResponse.Choices.First().Message.Content;
-            var parsedResponse = RowAnalysisParser.ParseResponse(message);
+            var parsedResponse = JsonConvert.DeserializeObject<List<RowAnalysis>>(message);
 
             foreach (var response in parsedResponse)
             {
