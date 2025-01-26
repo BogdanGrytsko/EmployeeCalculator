@@ -5,21 +5,27 @@ namespace EmployeeCalcucatorTest.ChatGpt;
 
 public class OpenAIApiCaller
 {
+    public const string Gpt4Mini = "gpt-4o-mini";
+    public const string Gpt4 = "gpt-4";
+
     private readonly string apiKey;
     private readonly string endpoint;
+    private readonly string model;
 
-    public OpenAIApiCaller(string apiKey, string endpoint)
+    public OpenAIApiCaller(string apiKey, string endpoint, string model)
     {
         this.apiKey = apiKey;
         this.endpoint = endpoint;
+        this.model = model;
     }
 
     public async Task<OpenAIResponse> Execute(string prompt)
     {
         using var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
         var payload = new
         {
+            model = model,
             messages = new object[]
             {
                   new {
