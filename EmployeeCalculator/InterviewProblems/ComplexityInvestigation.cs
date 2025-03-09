@@ -22,6 +22,7 @@ public class ComplexityInvestigation
 
     public void Seed(int listCount)
     {
+        list.Clear();
         var rnd = new Random();
         for (int i = 0; i < listCount; i++)
         {
